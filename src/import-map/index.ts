@@ -110,3 +110,5 @@ export class PluginImportMap implements VitePlugin {
 export function importMap(param: PluginImportMapParam) {
   return new PluginImportMap(param);
 }
+
+export * from "./types";
