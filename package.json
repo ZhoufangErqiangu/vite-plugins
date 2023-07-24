@@ -1,0 +1,28 @@
+{
+  "name": "vite-plugins",
+  "version": "0.0.0",
+  "description": "Self using vite plugins.",
+  "keywords": [
+    "vite",
+    "vite plugin"
+  ],
+  "license": "MIT",
+  "author": "alex",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/**/*.js",
+    "dist/**/*.d.ts"
+  ],
+  "packageManager": "yarn@1.22.19",
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "pub": "npm publish --access public"
+  },
+  "devDependencies": {
+    "@types/node": "^20.4.4",
+    "prettier": "^3.0.0",
+    "typescript": "^5.1.6",
+    "vite": "^4.4.6"
+  }
+}
