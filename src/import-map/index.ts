@@ -13,6 +13,12 @@ export interface PluginImportMapParam {
    * modules
    */
   modules: Module[];
+  /**
+   * use cdn css when serve
+   *
+   * default is true
+   */
+  cssServe?: boolean;
 }
 
 export class PluginImportMap implements VitePlugin {
@@ -29,6 +35,10 @@ export class PluginImportMap implements VitePlugin {
    */
   public isBuild = false;
   /**
+   * use cdn css when serve
+   */
+  public cssServe = true;
+  /**
    * all modules
    */
   public moduleMap: Record<string, string> = {};
@@ -38,13 +48,14 @@ export class PluginImportMap implements VitePlugin {
   public cssList: string[] = [];
 
   constructor(param: PluginImportMapParam) {
-    const { modules } = param;
+    const { modules, cssServe = true } = param;
     modules.forEach((m) => {
       const { name, path, css } = m;
       if (path) this.moduleMap[name] = path;
       if (css instanceof Array) this.cssList = this.cssList.concat(css);
       else if (css) this.cssList.push(css);
     });
+    this.cssServe = cssServe;
   }
 
   /**
@@ -78,15 +89,18 @@ export class PluginImportMap implements VitePlugin {
    */
   public transformIndexHtml = (html: string): IndexHtmlTransformResult => {
     // build style all the time
-    const styleTags: HtmlTagDescriptor[] = this.cssList.map((c) => {
-      return {
-        tag: "link",
-        attrs: {
-          href: c,
-          rel: "stylesheet",
-        },
-      };
-    });
+    const styleTags: HtmlTagDescriptor[] =
+      this.isBuild || this.cssServe
+        ? this.cssList.map((c) => {
+            return {
+              tag: "link",
+              attrs: {
+                href: c,
+                rel: "stylesheet",
+              },
+            };
+          })
+        : [];
     // build script when build
     const scriptTags: HtmlTagDescriptor[] = this.isBuild
       ? [
@@ -106,6 +120,60 @@ export class PluginImportMap implements VitePlugin {
 
 /**
  * build a new plugin
+ *
+ * @example
+ *
+ *
+ * ```typescript
+ * // vite.config.ts
+ * import vue from "@vitejs/plugin-vue";
+ * import { defineConfig } from "vite";
+ * import { importMap } from "./src/plugins";
+ *
+ * // https://vitejs.dev/config/
+ * export default defineConfig({
+ *   base: "/dist",
+ *   plugins: [
+ *     vue(),
+ *     importMap({
+ *       modules: [
+ *         {
+ *           name: "element-plus",
+ *           path: "https://cdn.jsdelivr.net/npm/element-plus@2.3.8/dist/index.full.mjs",
+ *           css: [
+ *             "https://cdn.jsdelivr.net/npm/element-plus@2.3.1/dist/index.min.css",
+ *             "https://cdn.jsdelivr.net/npm/element-plus@2.3.1/theme-chalk/dark/css-vars.css",
+ *           ],
+ *         },
+ *         {
+ *           name: "@element-plus/icons-vue",
+ *           path: "https://cdn.jsdelivr.net/npm/@element-plus/icons-vue@2.1.0/dist/index.min.js",
+ *         },
+ *         {
+ *           name: "vue",
+ *           path: "https://cdn.jsdelivr.net/npm/vue@3.3.4/dist/vue.esm-browser.js",
+ *         },
+ *         {
+ *           name: "vue-router",
+ *           path: "https://cdn.jsdelivr.net/npm/vue-router@4.2.4/dist/vue-router.esm-browser.js",
+ *         },
+ *         {
+ *           name: "lodash-es",
+ *           path: "https://cdn.jsdelivr.net/npm/lodash-es@4.17.21/+esm",
+ *         },
+ *         {
+ *           name: "dayjs",
+ *           path: "https://cdn.jsdelivr.net/npm/dayjs@1.11.8/+esm",
+ *         },
+ *         {
+ *           name: "@vue/devtools-api",
+ *           path: "https://cdn.jsdelivr.net/npm/@vue/devtools-api@6.5.0/+esm",
+ *         },
+ *       ],
+ *     }),
+ *   ],
+ * });
+ * ```
  */
 export function importMap(param: PluginImportMapParam) {
   return new PluginImportMap(param);
