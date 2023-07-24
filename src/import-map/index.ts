@@ -123,7 +123,6 @@ export class PluginImportMap implements VitePlugin {
  *
  * @example
  *
- *
  * ```typescript
  * // vite.config.ts
  * import vue from "@vitejs/plugin-vue";
