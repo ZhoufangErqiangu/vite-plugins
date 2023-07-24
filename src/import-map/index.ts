@@ -74,7 +74,7 @@ export class PluginImportMap implements VitePlugin {
    */
   public transformIndexHtml = (html: string): IndexHtmlTransformResult => {
     // build style all the time
-    const styleTag: HtmlTagDescriptor[] = this.cssList.map((c) => {
+    const styleTags: HtmlTagDescriptor[] = this.cssList.map((c) => {
       return {
         tag: "link",
         attrs: {
@@ -84,7 +84,7 @@ export class PluginImportMap implements VitePlugin {
       };
     });
     // build script when build
-    const scriptTag: HtmlTagDescriptor[] = this.isBuild
+    const scriptTags: HtmlTagDescriptor[] = this.isBuild
       ? [
           {
             tag: "script",
@@ -95,10 +95,9 @@ export class PluginImportMap implements VitePlugin {
           },
         ]
       : [];
-    // add style code and script code after title
     return {
       html,
-      tags: [...styleTag, ...scriptTag],
+      tags: styleTags.concat(scriptTags),
     };
   };
 }
