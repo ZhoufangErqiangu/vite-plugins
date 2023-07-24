@@ -1,12 +1,12 @@
-import { Module } from "./types";
 import {
-  Plugin as VitePlugin,
-  UserConfig,
   ConfigEnv,
-  IndexHtmlTransformResult,
   HtmlTagDescriptor,
+  IndexHtmlTransformResult,
   ResolvedConfig,
+  UserConfig,
+  Plugin as VitePlugin,
 } from "vite";
+import { Module } from "./types";
 
 export interface PluginImportMapParam {
   /**
