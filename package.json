@@ -1,10 +1,10 @@
 {
   "name": "vite-plugins",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Self using vite plugins.",
   "keywords": [
     "vite",
-    "vite plugin"
+    "vite-plugin"
   ],
   "license": "MIT",
   "author": "alex",
