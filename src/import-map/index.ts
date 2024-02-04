@@ -127,11 +127,10 @@ export class PluginImportMap implements VitePlugin {
  * // vite.config.ts
  * import vue from "@vitejs/plugin-vue";
  * import { defineConfig } from "vite";
- * import { importMap } from "./src/plugins";
+ * import { importMap } from "vite-plugins";
  *
  * // https://vitejs.dev/config/
  * export default defineConfig({
- *   base: "/dist",
  *   plugins: [
  *     vue(),
  *     importMap({
