@@ -7,3 +7,7 @@ Self using vite plugins
 Generate import map for external packages.
 
 This makes it easy to use cdn.
+
+## version
+
+Generate version file as asset.
