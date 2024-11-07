@@ -64,9 +64,10 @@ export function version(param: PluginVersionParam = {}): VitePlugin {
       const scriptTag: HtmlTagDescriptor = {
         tag: "script",
         attrs: { type: "text/javascript" },
-        children: `console.log(${logPrefix},${
+        injectTo: "head",
+        children: `console.log("${logPrefix}", "${
           version ?? process.env.npm_package_version
-        });`,
+        }");`,
       };
       return {
         html: html,
