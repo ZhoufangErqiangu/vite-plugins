@@ -8,6 +8,7 @@
   ],
   "license": "MIT",
   "author": "alex",
+  "repository": "https://github.com/ZhoufangErqiangu/vite-plugins",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
