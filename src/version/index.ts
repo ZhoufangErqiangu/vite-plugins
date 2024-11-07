@@ -1,15 +1,20 @@
-import { type PluginContext } from "rollup";
-import { Plugin as VitePlugin, normalizePath } from "vite";
+import {
+  HtmlTagDescriptor,
+  IndexHtmlTransformResult,
+  Plugin as VitePlugin,
+} from "vite";
 
 export interface PluginVersionParam {
   /**
+   * log prefix, default is `front version`
+   */
+  logPrefix?: string;
+  /**
    * set version manually
+   *
+   * if not set, will use `process.env.npm_package_version`
    */
   version?: string;
-  /**
-   * version file name, default is version.json
-   */
-  fileName?: string;
 }
 
 /**
@@ -42,7 +47,7 @@ export function version(param: PluginVersionParam = {}): VitePlugin {
     /**
      * vite plugin version
      */
-    version: "0.0.1",
+    version: "0.2.0",
     /**
      * vite plugin apply
      */
@@ -52,17 +57,21 @@ export function version(param: PluginVersionParam = {}): VitePlugin {
      */
     enforce: "post",
     /**
-     * roolup build end
+     * vite plugin trancsfor index html
      */
-    buildEnd(this: PluginContext, err?: Error) {
-      if (err) return;
-      this.emitFile({
-        fileName: normalizePath(param.fileName ?? "version.json"),
-        source: JSON.stringify({
-          version: param.version ?? process.env.npm_package_version ?? "0.0.0",
-        }),
-        type: "asset",
-      });
+    transformIndexHtml(html: string): IndexHtmlTransformResult {
+      const { logPrefix = "front version", version } = param;
+      const scriptTag: HtmlTagDescriptor = {
+        tag: "script",
+        attrs: { type: "text/javascript" },
+        children: `console.log(${logPrefix},${
+          version ?? process.env.npm_package_version
+        });`,
+      };
+      return {
+        html: html,
+        tags: [scriptTag],
+      };
     },
   };
 }
