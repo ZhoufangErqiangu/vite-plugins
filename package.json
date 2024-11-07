@@ -1,6 +1,6 @@
 {
   "name": "@liuhlightning/vite-plugins",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Self using vite plugins.",
   "keywords": [
     "vite",
@@ -17,7 +17,7 @@
   "packageManager": "yarn@1.22.19",
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
-    "pub": "npm publish --access public"
+    "push": "yarn version --patch && git push"
   },
   "devDependencies": {
     "@types/node": "^20.4.4",

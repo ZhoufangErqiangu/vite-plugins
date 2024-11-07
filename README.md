@@ -10,4 +10,4 @@ This makes it easy to use cdn.
 
 ## version
 
-Generate version file as asset.
+Print version in console.
