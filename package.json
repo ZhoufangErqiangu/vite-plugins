@@ -1,6 +1,6 @@
 {
   "name": "@liuhlightning/vite-plugins",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Self using vite plugins.",
   "keywords": [
     "vite",
